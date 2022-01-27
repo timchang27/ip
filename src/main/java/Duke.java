@@ -23,7 +23,7 @@ public class Duke {
 
                 int i=1;
                 for(Task task: tasks){
-                    System.out.println(i + ": " + task.getDescription());
+                    System.out.println(i + ": " + task.showStatus() + " " + task.getDescription());
                     i++;
                 }
                 i=0;
@@ -32,21 +32,33 @@ public class Duke {
             else if(userInput.equals("bye")){
                 break;
             }
-            else if(userInput.contains("mark")){
+            else if(userInput.startsWith("mark")){
                 String[] input = new String[10];
                 input  = userInput.split(" ");
                 int index = Integer.parseInt(input[1]); //index of task to be marked
-                tasks.get(index-1).setMark();
-                System.out.println("-------------------------------------------------------------------------\n" + "Nice! I've marked this task as done: ");
-                System.out.println("[X] "+ tasks.get(index-1).getDescription());
+                if(tasks.get(index-1).getTaskStatus() == true){
+                    System.out.println("The task is already marked!");
+                    System.out.println("-------------------------------------------------------------------------");
+                }
+                else{
+                    tasks.get(index-1).setMark();
+                    System.out.println("-------------------------------------------------------------------------\n" + "Nice! I've marked this task as done: ");
+                    System.out.println("[X] "+ tasks.get(index-1).getDescription());
+                }
             }
-            else if(userInput.contains("unmark")){
+            else if(userInput.startsWith("unmark")){
                 String[] input = new String[10];
                 input  = userInput.split(" ");
                 int index = Integer.parseInt(input[1]); //index of task to be unmarked
-                tasks.get(index-1).setUnmark();
-                System.out.println("-------------------------------------------------------------------------\n" + "OK, I've marked this task as not done yet:");
-                System.out.println("[ ] "+ tasks.get(index-1).getDescription());
+                if(tasks.get(index-1).getTaskStatus()==false){
+                    System.out.println("The task is not completed yet!");
+                    System.out.println("-------------------------------------------------------------------------");
+                }
+                else {
+                    tasks.get(index - 1).setUnmark();
+                    System.out.println("-------------------------------------------------------------------------\n" + "OK, I've marked this task as not done yet:");
+                    System.out.println("[ ] " + tasks.get(index - 1).getDescription());
+                }
             }
             else{
                 Task newTask = new Task(userInput);

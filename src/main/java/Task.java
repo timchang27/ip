@@ -23,6 +23,13 @@ public class Task {
     public void setUnmark(){
         this.isTaskDone = false;
     }
-
+    public String showStatus(){
+        if(isTaskDone==true){
+            return("[X]");
+        }
+        else{
+            return("[ ]");
+        }
+    }
 
 }

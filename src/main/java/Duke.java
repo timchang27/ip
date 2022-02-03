@@ -23,7 +23,7 @@ public class Duke {
 
                 int i=1;
                 for(Task task: tasks){
-                    System.out.println(i + ": " + task.showStatus() + " " + task.getDescription());
+                    System.out.println(i + ": " + task.getDescription());
                     i++;
                 }
                 i=0;
@@ -43,7 +43,7 @@ public class Duke {
                 else{
                     tasks.get(index-1).setMark();
                     System.out.println("-------------------------------------------------------------------------\n" + "Nice! I've marked this task as done: ");
-                    System.out.println("[X] "+ tasks.get(index-1).getDescription());
+                    System.out.println(tasks.get(index-1).getDescription());
                 }
             }
             else if(userInput.startsWith("unmark")){
@@ -57,8 +57,39 @@ public class Duke {
                 else {
                     tasks.get(index - 1).setUnmark();
                     System.out.println("-------------------------------------------------------------------------\n" + "OK, I've marked this task as not done yet:");
-                    System.out.println("[ ] " + tasks.get(index - 1).getDescription());
+                    System.out.println(tasks.get(index - 1).getDescription());
                 }
+            }
+            else if(userInput.startsWith("todo")){
+                String newtodo = userInput.split("todo")[1].trim();
+                Todo newTodo = new Todo(newtodo);
+                tasks.add(newTodo);
+                System.out.println("-------------------------------------------------------------------------");
+                System.out.println("Got it! I've added this task: ");
+                System.out.println(newTodo.getDescription());
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            }
+            else if(userInput.startsWith("deadline")){
+                String[] input = userInput.split("/by");
+                String ddate = input[1].trim();
+                String deadline = input[0].split("deadline")[1].trim();
+                Deadline newDeadline = new Deadline(deadline, ddate);
+                tasks.add(newDeadline);
+                System.out.println("-------------------------------------------------------------------------");
+                System.out.println("Got it! I've added this task: ");
+                System.out.println(newDeadline.getDescription());
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            }
+            else if(userInput.startsWith("event")){
+                String[] input = userInput.split("/at");
+                String edate = input[1].trim();
+                String event = input[0].split("event")[1].trim();
+                Event newEvent = new Event(event, edate);
+                tasks.add(newEvent);
+                System.out.println("-------------------------------------------------------------------------");
+                System.out.println("Got it! I've added this task: ");
+                System.out.println(newEvent.getDescription());
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
             }
             else{
                 Task newTask = new Task(userInput);

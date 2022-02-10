@@ -1,9 +1,18 @@
+package duke;
+
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.Todo;
+
 import java.util.*;
+import java.lang.*;
 
 public class Duke {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IndexOutOfBoundsException {
 
         Scanner sc = new Scanner(System.in);
+        DukeException ex = new DukeException();
 
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -14,7 +23,8 @@ public class Duke {
         ArrayList<Task> tasks = new ArrayList<Task>();
 
         System.out.println("Hello from\n" + logo);
-        System.out.println("Hello! I'm Duke\n" + "What can I do for you?");
+        System.out.println("Hello! I'm Duke.Duke\n" + "What can I do for you?");
+        displayOptions();
         String userInput;
         do {
             userInput = sc.nextLine();
@@ -61,44 +71,66 @@ public class Duke {
                 }
             }
             else if(userInput.startsWith("todo")){
-                String newtodo = userInput.split("todo")[1].trim();
-                Todo newTodo = new Todo(newtodo);
-                tasks.add(newTodo);
-                System.out.println("-------------------------------------------------------------------------");
-                System.out.println("Got it! I've added this task: ");
-                System.out.println(newTodo.getDescription());
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                try{
+                    String newtodo = userInput.split("todo")[1].trim();
+                    Todo newTodo = new Todo(newtodo);
+                    tasks.add(newTodo);
+                    System.out.println("-------------------------------------------------------------------------");
+                    System.out.println("Got it! I've added this task: " + newTodo.getDescription());
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                } catch(IndexOutOfBoundsException e){
+                    ex.missingDescription("todo");
+                } finally{
+                    System.out.println("What else should I do for you?");
+                }
             }
             else if(userInput.startsWith("deadline")){
-                String[] input = userInput.split("/by");
-                String ddate = input[1].trim();
-                String deadline = input[0].split("deadline")[1].trim();
-                Deadline newDeadline = new Deadline(deadline, ddate);
-                tasks.add(newDeadline);
-                System.out.println("-------------------------------------------------------------------------");
-                System.out.println("Got it! I've added this task: ");
-                System.out.println(newDeadline.getDescription());
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                try{
+                    String[] input = userInput.split("/by");
+                    String ddate = input[1].trim();
+                    String deadline = input[0].split("deadline")[1].trim();
+                    Deadline newDeadline = new Deadline(deadline, ddate);
+                    tasks.add(newDeadline);
+                    System.out.println("-------------------------------------------------------------------------");
+                    System.out.println("Got it! I've added this task: ");
+                    System.out.println(newDeadline.getDescription());
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                } catch(IndexOutOfBoundsException e){
+                    ex.missingDescription("deadline");
+                } finally{
+                    System.out.println("What else should I do for you?");
+                }
             }
             else if(userInput.startsWith("event")){
-                String[] input = userInput.split("/at");
-                String edate = input[1].trim();
-                String event = input[0].split("event")[1].trim();
-                Event newEvent = new Event(event, edate);
-                tasks.add(newEvent);
-                System.out.println("-------------------------------------------------------------------------");
-                System.out.println("Got it! I've added this task: ");
-                System.out.println(newEvent.getDescription());
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                try{
+                    String[] input = userInput.split("/at");
+                    String eventDate = input[1].trim();
+                    String event = input[0].split("event")[1].trim();
+                    Event newEvent = new Event(event, eventDate);
+                    tasks.add(newEvent);
+                    System.out.println("-------------------------------------------------------------------------");
+                    System.out.println("Got it! I've added this task: ");
+                    System.out.println(newEvent.getDescription());
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                } catch(IndexOutOfBoundsException e){
+                    ex.missingDescription("event");
+                } finally{
+                    System.out.println("What else should I do for you?");
+                }
             }
             else{
                 Task newTask = new Task(userInput);
                 tasks.add(newTask);
                 System.out.println("added: "+ userInput);
             }
-
         }while(!userInput.equals("bye"));
 
         System.out.println("Bye. Hope to see you again soon!");
+    }
+
+    public static void displayOptions(){
+        System.out.println("Enter todo to create new todo (...)\n" +
+                "Enter event (... /at {eventDate}) to create new event\n" +
+                "Enter deadline (... /by {dueDate}) to create new Deadline");
     }
 }

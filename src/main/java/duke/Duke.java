@@ -118,6 +118,19 @@ public class Duke {
                     System.out.println("What else should I do for you?");
                 }
             }
+            else if(userInput.startsWith("delete")){
+                String[] input = new String[10];
+                input  = userInput.split(" ");
+                int index = Integer.parseInt(input[1]) - 1; //index of task to be marked
+                if(tasks.size() > index){
+                    System.out.println("-------------------------------------------------------------------------");
+                    System.out.println("Noted. I've removed this task: \n" + tasks.get(index).getDescription());
+                    tasks.remove(index);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                } else{
+                    System.out.println("Task index not found.");
+                }
+            }
             else{
                 Task newTask = new Task(userInput);
                 tasks.add(newTask);

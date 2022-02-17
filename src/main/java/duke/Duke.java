@@ -4,11 +4,19 @@ import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
-
 import java.util.*;
 import java.lang.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Duke {
+    static ArrayList<Task> tasks = new ArrayList<Task>();
     public static void main(String[] args) throws IndexOutOfBoundsException {
 
         Scanner sc = new Scanner(System.in);
@@ -20,7 +28,7 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
 
-        ArrayList<Task> tasks = new ArrayList<Task>();
+
 
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke.Duke\n" + "What can I do for you?");
@@ -118,6 +126,20 @@ public class Duke {
                     System.out.println("What else should I do for you?");
                 }
             }
+            else if(userInput.startsWith("delete")){
+                String[] input = new String[10];
+                input  = userInput.split(" ");
+                //index of task to be deleted
+                int index = Integer.parseInt(input[1]) - 1;
+                if(tasks.size() > index){
+                    System.out.println("-------------------------------------------------------------------------");
+                    System.out.println("Noted. I've removed this task: \n" + tasks.get(index).getDescription());
+                    tasks.remove(index);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                } else {
+                    System.out.println("Task index not found");
+                }
+            }
             else{
                 Task newTask = new Task(userInput);
                 tasks.add(newTask);
@@ -133,4 +155,21 @@ public class Duke {
                 "Enter event (... /at {eventDate}) to create new event\n" +
                 "Enter deadline (... /by {dueDate}) to create new Deadline");
     }
+
+    public static void saveTasks() {
+        String toFile = "";
+        try {
+            FileWriter writer = new FileWriter("src/main/java/duke/tasks.txt");
+            for (int i = 0; i < tasks.size(); i++) {
+                toFile += tasks.get(i).getDescription() + "\n";
+            }
+            writer.write(toFile);
+            writer.close();
+            System.out.println("Task saved");
+            System.out.println("______________________________________");
+        } catch (Exception e) {
+            System.out.println("Error occurred");
+        }
+    }
+
 }

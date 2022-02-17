@@ -7,8 +7,14 @@ import duke.task.Todo;
 
 import java.util.*;
 import java.lang.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Duke {
+    static ArrayList<Task> tasks = new ArrayList<Task>();
     public static void main(String[] args) throws IndexOutOfBoundsException {
 
         Scanner sc = new Scanner(System.in);
@@ -20,7 +26,7 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
 
-        ArrayList<Task> tasks = new ArrayList<Task>();
+
 
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke.Duke\n" + "What can I do for you?");
@@ -145,5 +151,23 @@ public class Duke {
         System.out.println("Enter todo to create new todo (...)\n" +
                 "Enter event (... /at {eventDate}) to create new event\n" +
                 "Enter deadline (... /by {dueDate}) to create new Deadline");
+    }
+
+    public static void saveTasks() {
+        String toFile = "";
+        try {
+            FileWriter writer = new FileWriter("src/main/java/tasks.txt");
+            for (int i = 0; i < tasks.size(); i++) {
+                toFile += tasks.get(i).getDescription() + "\n";
+            }
+            writer.write(toFile);
+            writer.close();
+            System.out.println("Saved!");
+            System.out.println("______________________________________");
+        } catch (Exception e) {
+            System.out.println("An error has occurred when saving!");
+        }
+
+
     }
 }

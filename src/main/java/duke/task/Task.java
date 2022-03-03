@@ -3,18 +3,21 @@ package duke.task;
 public class Task {
 
     protected String description;
-    protected boolean isTaskDone;
+    protected boolean isDone;
 
     public Task(String description){
         this.description = description;
-        this.isTaskDone = false;
+        this.isDone = false;
     }
 
     public Task(String description, boolean isTaskDone){
         this.description = description;
-        this.isTaskDone = isTaskDone;
+        this.isDone = isTaskDone;
     }
 
+    public String getTask() {
+        return showStatus() + this.description;
+    }
     public String getDescription(){
         return showStatus() + description;
     }
@@ -22,20 +25,20 @@ public class Task {
         description = input;
     }
     public boolean getTaskStatus(){
-        return isTaskDone;
+        return isDone;
     }
     public void setMark(){
-        this.isTaskDone = true;
+        this.isDone = true;
     }
     public void setUnmark(){
-        this.isTaskDone = false;
+        this.isDone = false;
     }
     public String showStatus(){
-        if(isTaskDone==true){
-            return("[X]");
+        if(isDone==true){
+            return("[X] ");
         }
         else{
-            return("[ ]");
+            return("[ ] ");
         }
     }
 
